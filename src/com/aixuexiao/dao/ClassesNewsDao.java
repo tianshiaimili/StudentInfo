@@ -8,7 +8,11 @@ import org.springframework.stereotype.Component;
 
 import com.aixuexiao.model.Classes;
 import com.aixuexiao.model.ClassesNews;
-
+/**
+ * 注解可参考 http://www.cnblogs.com/xdp-gacl/p/3495887.html
+ * @author zero
+ *不建议使用@Component   可以使用@Repository
+ */
 @Component("classesNewsDao")
 public class ClassesNewsDao extends BaseDao {
 

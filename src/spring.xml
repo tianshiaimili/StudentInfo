@@ -10,6 +10,7 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
+    <!-- 事物 、自动扫描、 注解的配置 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<context:annotation-config></context:annotation-config>
 	<context:component-scan base-package="com.aixuexiao" />
@@ -36,6 +37,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="jdbcUrl" value="${db.url}"></property>
 		<property name="user" value="${db.userName}" />
 		<property name="password" value="${db.password}" />
+		
 		<property name="maxPoolSize" value="12" />
 		<property name="minPoolSize" value="0" />
 		<property name="maxStatements" value="100" />
@@ -46,59 +48,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="testConnectionOnCheckout" value="false" />
 		<property name="preferredTestQuery" value="SELECT 1 FROM DUAL" />
 	</bean> 
-	
-	<!-- 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-		 -->
-		<!-- 
-		<property name="url" value="jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_sshtest"/> 
-		<property name="username" value="oxjxnlkyyy"/>
-		<property name="password" value="kzkmy502hl3hy4l1mkkz054y1m411kzz05lhl0zx"/>
-		<property name="maxWait"            value="1000" />
-        <property name="initialSize"        value="5" />
-        <property name="maxActive"          value="20" />
-        <property name="maxIdle"            value="5" /> 
-         -->
-		
-		<!-- 
-		<property name="url" value="jdbc:mysql://localhost:3306/test"/> 
-		<property name="username" value="root"/>
-		<property name="password" value="123456"/> 
-		-->
-		<!-- 
-		  <property name="url">
-            <value>${db.url}</value>
-        </property>
-         -->
-      <!--   <property name="driverClassName">
-            <value>${db.driver}</value>
-        </property> -->
-        <!-- 
-        <property name="username">
-            <value>${db.userName}</value>
-        </property>
-        <property name="password">
-            <value>${db.password}</value>
-        </property>
-		
-		
-		<property name="initialSize" value="5"/>
-		<property name="maxActive" value="50"/>
-		<property name="maxIdle" value="10"/>
-		<property name="maxWait" value="20"/>
-		<property name="minIdle" value="1"/> 
- 			
-        <property name="testWhileIdle"      value="true" />
-        <property name="timeBetweenEvictionRunsMillis"  value="15000" />
-        <property name="numTestsPerEvictionRun"         value="20" />
-        <property name="validationQuery"    value="SELECT 1 FROM DUAL" />
-        <property name="removeAbandoned"    value="true" />
-        <property name="removeAbandonedTimeout"         value="180" />
-
-	</bean>
-	 -->
-	
 
 	<!-- 配置读的 ibatis （从库） -->
 	<bean id="readSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -106,7 +55,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="configLocation" value="classpath:sqlMapConfig.xml" />
 	</bean>
 
-
+<!-- 关于构造函数的注入可以参考 http://zzy7182.iteye.com/blog/1153473 -->
 	<bean id="readSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="readSqlSessionFactory" />
 	</bean>

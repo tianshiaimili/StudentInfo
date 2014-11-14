@@ -14,12 +14,18 @@ import com.aixuexiao.model.Classes;
 import com.aixuexiao.model.ExamMark;
 import com.aixuexiao.model.Student;
 import com.aixuexiao.model.StudentMessage;
-
+/**
+ * 关于注解可以参考http://www.cnblogs.com/xdp-gacl/p/3495887.html
+ * 相当于业务层
+ * @author zero
+ *
+ */
 @Service("studentService")
 public class StudentService {
 
 	@Resource(name="studentDao")
 	private StudentDao studentDao;
+//	@Resource(name="")
 	
 	@Resource(name="classesDao")
 	private ClassesDao classesDao;

@@ -38,6 +38,9 @@ public class StudentController {
 			num = Integer.parseInt(pagenum);
 		}
 		List<Student> list = studentService.listStudent((num-1)*pagesize, pagesize,student);
+		/**
+		 * 各个班级
+		 */
 		List<Classes> clslist = studentService.findAllClasses();
 		mv.addObject("studentList", list);
 		mv.addObject("clsList", clslist);

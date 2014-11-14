@@ -40,7 +40,8 @@
 	<delete id="deleteStudentById" parameterType="int" >
 	    delete from student where id = #{id}
 	</delete>
-	
+	 
+	<!-- 配置ORM映射 -->
 	 <resultMap type="Student" id="studentMap">
 	     <id property="id" column="id" />  
 	     <result property="classid" column="classid"/>  

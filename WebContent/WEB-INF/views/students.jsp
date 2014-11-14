@@ -3,7 +3,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>学生信息</title>
+		<title>雅蠛蝶</title>
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<%@include file="/WEB-INF/views/common/css.jsp" %>
@@ -36,7 +36,11 @@
 								<select name="classid">
 									<option value="0">选择班级</option>
 									<c:forEach items="${clsList}"  var="cls"  >
-										<option <c:if test="${student.classid == cls.id}">selected="selected"</c:if> value="${cls.id}">${cls.name}</option>
+										<option 
+										<c:if test="${student.classid == cls.id}">selected="selected"</c:if> 
+										value="${cls.id}">
+										${cls.name}
+										</option>
 									</c:forEach>
 								</select>&nbsp;&nbsp;
 								<button  type="submit" class="btn btn-purple btn-small">
@@ -72,7 +76,7 @@
 							
 					 		<div class="dataTables_paginate paging_bootstrap pagination">
 							  <button class="btn btn-success btn-mini" onclick="location.href='<%=request.getContextPath() %>/manager/students?pagenum=${pagenum-1}'" <c:if test="${pagenum <= 1}">disabled="disabled"</c:if>    >&laquo;</button>
-							  <button class="btn btn-success btn-mini" disabled="disabled">第 ${pagenum} 页</button>
+							  <button class="btn btn-success btn-mini" >第 ${pagenum} 页</button>
 							  <button class="btn btn-success btn-mini" onclick="location.href='<%=request.getContextPath() %>/manager/students?pagenum=${pagenum+1}'" <c:if test="${length < 8}">disabled="disabled"</c:if> >&raquo;</button>
 					 		</div>
 							 

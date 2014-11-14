@@ -5,6 +5,9 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <servlet-mapping>
+      <!-- 在web.xml文件中经常看到这样的配置<servlet-name>default</servlet-name>，这个配置的作用是：对客户端请求的静态资源如图片、JS文件等的请求交由默认的servlet进行处理
+      可参考 http://blog.csdn.net/wxwzy738/article/details/19072909
+       -->
     <servlet-name>default</servlet-name>
     <url-pattern>/assets/*</url-pattern>
   </servlet-mapping>
