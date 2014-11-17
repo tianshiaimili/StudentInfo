@@ -26,5 +26,6 @@ replyMessage（对应URL:/weixin POST）方法则是回复方法。
 
 有任何问题可用联系我，看到第一时间回复
 
-zhiyun.cloud@gmail.com
-@智云同学
+URL:http://1.huyue520.sinaapp.com/weixin
+Token :huyue520
+EncodingAESKey:QQOcFIt5R0LfZNQUc6DHkH4a5UDZWYqoaepdj9xdNd2

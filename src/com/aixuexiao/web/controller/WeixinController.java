@@ -23,7 +23,7 @@ import com.aixuexiao.util.WeixinUtil;
 @Controller()
 public class WeixinController {
 	
-	private static final String TOKEN = "aixuexiao";
+	private static final String TOKEN = "huyue520";
 	
 	public static int pagesize = 10;
 	
@@ -109,9 +109,11 @@ public class WeixinController {
 	 * 根据token计算signature验证是否为weixin服务端发送的消息
 	 */
 	private static boolean checkWeixinReques(HttpServletRequest request){
+		
+		/**微信加密签名*/
 		String signature = request.getParameter("signature");
 		String timestamp = request.getParameter("timestamp");
-		String nonce = request.getParameter("nonce");
+		String nonce = request.getParameter("nonce");//随机数
 		if (signature != null && timestamp != null && nonce != null ) {
 			String[] strSet = new String[] { TOKEN, timestamp, nonce };
 			java.util.Arrays.sort(strSet);
