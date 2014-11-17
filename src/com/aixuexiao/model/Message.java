@@ -7,6 +7,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
  * 微信消息（服务端接收到的）
+ * 关于Xstream的用法 参考：http://fair-jm.iteye.com/blog/1873130
+ * 
+ * 关于这些定义的属性可以参考 ： http://mp.weixin.qq.com/wiki/index.php?title=%E6%8E%A5%E6%94%B6%E6%99%AE%E9%80%9A%E6%B6%88%E6%81%AF
+ * 
  * @author lizy
  */
 public  class Message implements Serializable{

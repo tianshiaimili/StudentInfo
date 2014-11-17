@@ -29,3 +29,7 @@ replyMessage（对应URL:/weixin POST）方法则是回复方法。
 URL:http://1.huyue520.sinaapp.com/weixin
 Token :huyue520
 EncodingAESKey:QQOcFIt5R0LfZNQUc6DHkH4a5UDZWYqoaepdj9xdNd2
+
+/weixin?signature=a7a5bc62c8ca96aac10c9864f18905882d10cdea&echostr=3565340920539512763&timestamp=1416194744&nonce=1997749682 500 5000 - - 
+
+weixin?signature=c4b3051b6189f643d50123d49dfae9a2a7cb07da&echostr=6286432969040846507&timestamp=1416206371&nonce=533799762

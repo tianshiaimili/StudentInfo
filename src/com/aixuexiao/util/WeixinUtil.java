@@ -31,6 +31,19 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
  */
 public class WeixinUtil {
 	
+	private static WeixinUtil mWeixinUtil;
+	
+	public WeixinUtil(){
+		
+	}
+	
+	public static WeixinUtil instance(){
+		if(mWeixinUtil == null){
+			mWeixinUtil = new WeixinUtil();
+		}
+		
+		return mWeixinUtil;
+	}
 	
 	public static String singleExamMarkToString(ExamMark em){
 		if(null==em || em.getExam()==null)
@@ -125,6 +138,7 @@ public class WeixinUtil {
 	
 	/**
 	 * 解析request中的xml 并将数据存储到一个Map中返回
+	 * 至于消息返回的xml类型可以参考 ： http://mp.weixin.qq.com/wiki/index.php?title=%E6%8E%A5%E6%94%B6%E6%99%AE%E9%80%9A%E6%B6%88%E6%81%AF
 	 * @param request
 	 */
 	public static Map<String, String> parseXml(HttpServletRequest request){

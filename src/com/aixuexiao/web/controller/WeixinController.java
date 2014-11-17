@@ -1,6 +1,8 @@
 package com.aixuexiao.web.controller;
 
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +29,8 @@ public class WeixinController {
 	private static final String TOKEN = "huyue520";
 	
 	public static int pagesize = 10;
+	private static Logger mLogger = Logger.getLogger(WeixinController.class);
+	
 	
 	@Resource(name="weixinService")
 	private WeixinService weixinService;
@@ -42,6 +47,7 @@ public class WeixinController {
 	@ResponseBody
 	public String replyMessage(HttpServletRequest request){
 		//仅处理微信服务端发的请求
+//		WeixinUtil mWeixinUtil = new WeixinUtil();
 		if (checkWeixinReques(request)) {
 			Map<String, String> requestMap = WeixinUtil.parseXml(request);
 			Message message = WeixinUtil.mapToMessage(requestMap);
@@ -121,12 +127,39 @@ public class WeixinController {
 			for (String string : strSet) {
 				key = key + string;
 			}
+//			String pwd = WeixinUtil.sha1(key);
+//			WeixinUtil mWeixinUtil = new WeixinUtil();
 			String pwd = WeixinUtil.sha1(key);
+//			String pwd = mSha1(key);
+			mLogger.info("pwd      == "+pwd);
+			mLogger.info("signature== "+signature);
+			
 			return pwd.equals(signature);
 		}else {
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * 自己来写个
+	 * sha1加密算法
+	 * @param key需要加密的字符串
+	 * @return 加密后的结果
+	 */
+	public static String mSha1(String key) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA1");
+			md.update(key.getBytes());
+			String pwd = new BigInteger(1, md.digest()).toString(16);
+			return pwd;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return key;
+		}
+	}
+	
+	
 	
 	/**
 	 * 收到消息列表页面
