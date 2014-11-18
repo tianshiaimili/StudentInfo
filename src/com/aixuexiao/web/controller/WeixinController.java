@@ -35,6 +35,13 @@ public class WeixinController {
 	@Resource(name="weixinService")
 	private WeixinService weixinService;
 	
+	/**
+	 *   @responsebody表示该方法的返回结果直接写入HTTP response body中
+一般在异步获取数据时使用，在使用@RequestMapping后，返回值通常解析为跳转路径，加上@responsebody后返回结果不会被解析为跳转路径，
+而是直接写入HTTP response body中。比如异步获取json数据，加上@responsebody后，会直接返回json数据。
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="/test",method=RequestMethod.GET,produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String test(HttpServletRequest request){
