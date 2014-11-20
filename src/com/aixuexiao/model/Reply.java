@@ -4,22 +4,40 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.aixuexiao.util.WeixinUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
  * 回复用户的消息
- * @author lizy
  */
 public class Reply implements Serializable {
 
 	public static final String TEXT = "text";
 	public static final String MUSIC = "music";
 	public static final String NEWS = "news";
+	public static final String IMAGE ="image";
+	
 	
 	public static final String ERROR_CONTENT = "查询失败，请检查你的回复是否正确。\n查询最近考试情况请回复：学号_考试（如：3021_考试）\n 查询最近最近10次考试情况请回复：学号_考试历史（如：3021_考试历史）\n 查询老师留言情况请回复：学号_留言（如：3021_留言）\n查询老师留言记录（最近10次）情况请回复：学号_留言历史（如：3021_留言历史）\n\n 查询班级动态情况请回复：学号_动态（如：3021_动态）\n查询班级动态记录（最近10次）情况请回复：学号_动态历史（如：3021_动态历史）\n";
-	public static final String WELCOME_CONTENT = "欢迎订阅月悦阁，你可以回复指定内容来了解学生考试情况，老师留言和班级动态。\n查询最近考试情况请回复：学号_考试（如：1_考试）\n 查询最近最近10次考试情况请回复：学号_考试历史（如：1_考试历史）\n 查询老师留言情况请回复：学号_留言（如：1_留言）\n查询老师留言记录（最近10次）情况请回复：学号_留言历史（如：1_留言历史）\n\n 查询班级动态情况请回复：学号_动态（如：1_动态）\n查询班级动态记录（最近10次）情况请回复：学号_动态历史（如：1_动态历史）\n";
+	public static final String html_conten = "<a href="+"\"http://m.baidu.com\""+">月悦阁</a>";
+	//添加若干表情
+	public static final String QQ_FACE1="\ue415";//微笑
+	public static final String QQ_FACE2="\ue409";//吐舌
+	public static final String QQ_FACE3="\ue331";//精灵
+	public static final String QQ_FACE4="\ue42a";//篮球
+	
+	
+	public static final String WELCOME_CONTENT = "欢迎订阅"+html_conten+QQ_FACE1+"，你可以回复指定内容来了解学生考试情况，老师留言和班级动态。"
+			+ "\n查询最近考试情况请回复：学号_考试（如：1_考试）"+QQ_FACE2+"\n 查询最近最近10次考试情况请回复：学号_考试历史（如：1_考试历史）\n "
+					+ "查询老师留言情况请回复：学号_留言（如：1_留言）\n查询老师留言记录（最近10次）情况请回复：学号_留言历史（如：1_留言历史）\n\n "
+					+ "查询班级动态情况请回复：学号_动态（如：1_动态）\n查询班级动态记录（最近10次）情况请回复：学号_动态历史（如：1_动态历史）"+QQ_FACE3+"\n"
+					+"福利提示回复：0；有意外惊喜哦！"+QQ_FACE4+"\n";
+	public static final String WELCOME_CONTENT1 ="欢迎订阅"+html_conten+" "+"/:kiss"+"  "+QQ_FACE1;
+	public static final String WELCOME_CONTENT2 ="欢迎订阅"+html_conten+" "+"/:kiss"+"  "+"\ue32d";
 //	public static final String WELCOME_CONTENT = "啦啦啦德玛西亚   嘿嘿嘿 ！！！";
+	public static final String WELCOME_ATTENTION ="哎呀 官人，讨厌 ！怎么才来呀 。奴家相思你拉！\n回复？选择您想要奴家做啥。";
+	
 	
 	@XStreamOmitField
 	private int id;//数据库存储id
@@ -57,7 +75,7 @@ public class Reply implements Serializable {
     private List<Article> articles;
 
 	public static void main(String[] args) {
-		System.out.println("http://mmsns.qpic.cn/mmsns/UKMLIAeREF9IyZGhfvF8f0CAKDzEvXwCibLKUM4kmsfGnZvFM7EJlrg/0".length());
+//		System.out.println("http://mmsns.qpic.cn/mmsns/UKMLIAeREF9IyZGhfvF8f0CAKDzEvXwCibLKUM4kmsfGnZvFM7EJlrg/0".length());
 	}
 	
 	public int getId() {

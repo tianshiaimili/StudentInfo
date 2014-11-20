@@ -5,13 +5,18 @@ import java.io.InputStream;
 import java.io.Writer;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -20,6 +25,7 @@ import com.aixuexiao.model.Article;
 import com.aixuexiao.model.ExamMark;
 import com.aixuexiao.model.Message;
 import com.aixuexiao.model.Reply;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -80,7 +86,14 @@ public class WeixinUtil {
 	 * @return 返回符合微信接口的xml字符串
 	 */
 	public static String replyToXml(Reply reply){
+		
+		Logger mLogger = Logger.getLogger(WeixinUtil.class);
+		mLogger.error("******replyToXml*********");
+		
 		String type = reply.getMsgType();
+		
+		mLogger.error("******type********* == "+type);
+		
 		if(Reply.TEXT.equals(type)){
 			xstream.omitField(Reply.class, "articles");
 			xstream.omitField(Reply.class, "articleCount");
@@ -94,11 +107,24 @@ public class WeixinUtil {
 			xstream.omitField(Reply.class, "content");
 			xstream.omitField(Reply.class, "musicUrl");
 			xstream.omitField(Reply.class, "hQMusicUrl");
+		}else if(Reply.IMAGE.equals(type)){
+			mLogger.error("-----------------");
+//			xstream.omitField(Reply.class, "articles");
+//			xstream.omitField(Reply.class, "articleCount");
+			xstream.omitField(Reply.class, "musicUrl");
+			xstream.omitField(Reply.class, "hQMusicUrl");
+//			xstream.omitField(Reply.class, "content");
+			
 		}
 		xstream.autodetectAnnotations(true);  
 		xstream.alias("xml", reply.getClass());
 		xstream.alias("item", new Article().getClass());
-		return xstream.toXML(reply);
+		
+		String content = xstream.toXML(reply);
+		
+		mLogger.error("cont==== "+content);
+		
+		return content;
 	}
 	
 	
@@ -177,5 +203,62 @@ public class WeixinUtil {
 			return key;
 		}
 	}
+	
+	
+	/** 
+	 * 判断是否是QQ表情 
+	 *  简单的模仿设计 用户发什么qq表情就回复什么表情
+	 * @param content 
+	 * @return 
+	 */  
+	public static boolean isQqFace(String content) {  
+	    boolean result = false;  
+	  
+	    // 判断QQ表情的正则表达式  
+	    String qqfaceRegex = "/::\\)|/::~|/::B|/::\\||/:8-\\)|/::<|/::$|/::X|/::Z|"
+	    		+ "/::'\\(|/::-\\||/::@|/::P|/::D|/::O|/::\\(|/::\\+|/:--b|/::Q|/::T|"
+	    		+ "/:,@P|/:,@-D|/::d|/:,@o|/::g|/:\\|-\\)|/::!|/::L|/::>|/::,@|/:,@f|"
+	    		+ "/::-S|/:\\?|/:,@x|/:,@@|/::8|/:,@!|/:!!!|/:xx|/:bye|/:wipe|"
+	    		+ "/:dig|/:handclap|/:&-\\(|/:B-\\)|/:<@|/:@>|/::-O|/:>-\\||/:P-\\(|/::'\\||/:X-\\)|"
+	    		+ "/::\\*|/:@x|/:8\\*|/:pd|/:<W>|/:beer|/:basketb|/:oo|/:coffee|/:eat|/:pig|/:rose|"
+	    		+ "/:fade|/:showlove|/:heart|/:break|/:cake|/:li|/:bome|/:kn|/:footb|/:ladybug|"
+	    		+ "/:shit|/:moon|/:sun|/:gift|/:hug|/:strong|/:weak|/:share|/:v|/:@\\)|"
+	    		+ "/:jj|/:@@|/:bad|/:lvu|/:no|/:ok|/:love|/:<L>|/:jump|/:shake|/:<O>|"
+	    		+ "/:circle|/:kotow|/:turn|/:skip|/:oY|/:#-0|/:hiphot|/:kiss|/:<&|/:&>";  
+	    Pattern p = Pattern.compile(qqfaceRegex);  
+	    Matcher m = p.matcher(content);  
+	    if (m.matches()) {  
+	        result = true;  
+	    }  
+	    return result;  
+	} 
+	
+	/**
+	 * 转换微信中creatime的时间
+	 * @param createTime
+	 * @return
+	 */
+	public static String formatTime(String createTime){
+		//微信中的createTime是从1970年到当前间隔的秒数 不是毫秒数，故我们这里乘以1000的话就可以转换成毫秒 就方便计算
+		long msgCreateTime = Long.parseLong(createTime) *1000L;
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		return format.format(new Date(msgCreateTime));
+		
+	}
+	
+	
+	   /** 
+     * emoji表情转换(hex -> utf-16) 
+     *  这是一种qq的另一种表情
+     *  注意啊 这种方法 不是很好了 请参考
+     *  http://blog.csdn.net/lyq8479/article/details/9393097
+     * @param hexEmoji 
+     * @return 
+     */  
+    public static String emoji(int hexEmoji) {  
+        return String.valueOf(Character.toChars(hexEmoji));  
+    }  
 	
 }

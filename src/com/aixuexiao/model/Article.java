@@ -5,9 +5,24 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
  * 图文消息
- * @author lizy
+
+ *关于Xstream的使用 可以参考 http://blog.csdn.net/gaozhlzh/article/details/6826140
+ *注解
+@XStreamAlias("message") 别名注解
+作用目标: 类,字段
+
+@XStreamImplicit 隐式集合
+@XStreamImplicit(itemFieldName="part")
+作用目标: 集合字段
+
+@XStreamConverter(SingleValueCalendarConverter.class) 注入转换器
+作用目标: 对象
+
+@XStreamAsAttribute 转换成属性
+作用目标: 字段
+ *
  */
-public class Article {
+public class Article{
 	
 	@XStreamOmitField
 	private int id;//数据库存储的id
@@ -28,7 +43,8 @@ public class Article {
 	@XStreamOmitField
 	private int replyId;
 	
-	private Reply reply;
+//	@XStreamOmitField
+//	private Reply reply;
 	
 	public Article() {}
 	
@@ -82,13 +98,13 @@ public class Article {
 		this.replyId = replyId;
 	}
 
-	public Reply getReply() {
-		return reply;
-	}
-
-	public void setReply(Reply reply) {
-		this.reply = reply;
-	}
+//	public Reply getReply() {
+//		return reply;
+//	}
+//
+//	public void setReply(Reply reply) {
+//		this.reply = reply;
+//	}
 	
     
     
