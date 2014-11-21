@@ -10,7 +10,7 @@ public class NewsMessage extends BaseMessage {
     // 图文消息个数，限制为10条以内  
     private int ArticleCount;  
     // 多条图文消息信息，默认第一个item为大图  
-    private List<Article> Articles;  
+    private List<com.aixuexiao.model.Article> Articles;  
   
     public int getArticleCount() {  
         return ArticleCount;  
@@ -20,11 +20,11 @@ public class NewsMessage extends BaseMessage {
         ArticleCount = articleCount;  
     }  
   
-    public List<Article> getArticles() {  
+    public List<com.aixuexiao.model.Article> getArticles() {  
         return Articles;  
     }  
   
-    public void setArticles(List<Article> articles) {  
+    public void setArticles(List<com.aixuexiao.model.Article> articles) {  
         Articles = articles;  
     }  
 }

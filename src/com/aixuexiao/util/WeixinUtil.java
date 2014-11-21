@@ -21,6 +21,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.aixuexiao.message.resp.NewsMessage;
 import com.aixuexiao.model.Article;
 import com.aixuexiao.model.ExamMark;
 import com.aixuexiao.model.Message;
@@ -31,6 +32,7 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import com.thoughtworks.xstream.mapper.FieldAliasingMapper;
 
 /**
  * 微信相关工具类
@@ -86,7 +88,6 @@ public class WeixinUtil {
 	 * @return 返回符合微信接口的xml字符串
 	 */
 	public static String replyToXml(Reply reply){
-		
 		Logger mLogger = Logger.getLogger(WeixinUtil.class);
 		mLogger.error("******replyToXml*********");
 		
@@ -102,23 +103,21 @@ public class WeixinUtil {
 		}else if(Reply.MUSIC.equals(type)){
 			xstream.omitField(Reply.class, "articles");
 			xstream.omitField(Reply.class, "articleCount");
-			xstream.omitField(Reply.class, "content");
+			xstream.omitField(Reply.class, "content"); 
 		}else if(Reply.NEWS.equals(type)){
 			xstream.omitField(Reply.class, "content");
 			xstream.omitField(Reply.class, "musicUrl");
 			xstream.omitField(Reply.class, "hQMusicUrl");
+			
 		}else if(Reply.IMAGE.equals(type)){
 			mLogger.error("-----------------");
-//			xstream.omitField(Reply.class, "articles");
-//			xstream.omitField(Reply.class, "articleCount");
 			xstream.omitField(Reply.class, "musicUrl");
 			xstream.omitField(Reply.class, "hQMusicUrl");
-//			xstream.omitField(Reply.class, "content");
 			
 		}
 		xstream.autodetectAnnotations(true);  
 		xstream.alias("xml", reply.getClass());
-		xstream.alias("item", new Article().getClass());
+//		xstream.alias("item", new Article().getClass());
 		
 		String content = xstream.toXML(reply);
 		
@@ -127,6 +126,26 @@ public class WeixinUtil {
 		return content;
 	}
 	
+	
+	   /** 
+     * 图文消息对象转换成xml 
+     *  
+     * @param newsMessage 图文消息对象 
+     * @return xml 
+     */  
+    public static String replyNewsMessageToXml(NewsMessage newsMessage) {  
+    	Logger mLogger = Logger.getLogger(WeixinUtil.class);
+		mLogger.error("******replyToXml*********");
+    	xstream.autodetectAnnotations(true);
+    	xstream.alias("xml", newsMessage.getClass());  
+        xstream.alias("item", new Article().getClass());  
+        
+        String content = xstream.toXML(newsMessage);
+		
+		mLogger.error("cont==== "+content);
+		
+		return content;  
+    } 
 	
 	/**
 	 * 存储数据的Map转换为对应的Message对象

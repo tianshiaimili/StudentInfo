@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aixuexiao.dao.ReplyDao;
+import com.aixuexiao.message.resp.NewsMessage;
 import com.aixuexiao.model.Article;
 import com.aixuexiao.model.ExamMark;
 import com.aixuexiao.model.Message;
@@ -123,37 +124,23 @@ public class WeixinController {
 					replyContent = Reply.WELCOME_CONTENT;
 
 				} else if (content.equals("0")) {
-					/**
-					 * 回复图文信息 大图
-					 * http://img.zongyijia.com/images/20140630152830_4047.jpg
-					 * 小图
-					 * http://a.hiphotos.baidu.com/baike/c0%3Dbaike72%2C5%2C5%
-					 * 2C72
-					 * %2C24%3Bt%3Dgif/sign=c951dbe25166d0166a14967af642bf62/
-					 * 3b87e950352ac65ce0b23e5cf8f2b21193138a6e.jpg
-					 */
-
-					// Article mArticle = new Article();
-					// // mArticle.setToUserName(message.getFromUserName());
-					// // mArticle.setFromUserName(message.getToUserName());
-					// // mArticle.setCreateTime(new Date());
-					// // mArticle.setMsgType(Reply.IMAGE);
-					// mArticle.setTitle("Fuck Me");
-					// mArticle.setDescription("lallalalall德玛西亚"+"\n");
-					// mArticle.setPicUrl("http://img.zongyijia.com/images/20140630152830_4047.jpg");
-					// mArticle.setUrl("http://m.baidu.com");
-					// mArticle.setReplyId(123456);
 					String picUrl = "http://img.zongyijia.com/images/20140630152830_4047.jpg";
 					String url = "http://m.baidu.com";
 
 					Article article1 = new Article();
-					article1.setTitle("德玛西亚\n引言");
-					article1.setDescription("");
-//					article1.setPicUrl("");
+					article1.setTitle("德玛西亚\n");
+					article1.setDescription("啦啦啦啦德玛西亚");
+					article1.setPicUrl("");
 					article1.setUrl(url);
+					
+					Article article2 = new Article();
+					article2.setTitle("德玛西亚111\n");
+					article2.setDescription("啦啦啦啦德玛西亚1111");
+					article2.setPicUrl("");
+					article2.setUrl(url);
 
 					list.add(article1);
-//					list.add(article2);
+					list.add(article2);
 
 					Reply reply = new Reply();
 					reply.setToUserName(message.getFromUserName());
@@ -161,17 +148,19 @@ public class WeixinController {
 					reply.setCreateTime(new Date());
 					reply.setMsgType(Reply.NEWS);
 					reply.setArticleCount(list.size());
-					reply.setArticles(list);
-
-					// weixinService.
-//					replyDao.addArticle(article1);
-//					replyDao.addArticle(article2);
-
 					mLogger.error("list.size()== " + list.size());
-					// list = null;
-
+					reply.setArticles(list);
+//					weixinService.addReply(reply);// 保存回复消息到数据库
+					
+					NewsMessage mNewsMessage = new NewsMessage();
+					mNewsMessage.setToUserName(message.getFromUserName());
+					mNewsMessage.setFromUserName(message.getToUserName());
+					mNewsMessage.setCreateTime(System.currentTimeMillis());
+					mNewsMessage.setMsgType(Reply.NEWS);
+					mNewsMessage.setArticleCount(list.size());
+					mNewsMessage.setArticles(list);
 					 // 将回复消息序列化为xml形式
-					 String back = WeixinUtil.replyToXml(reply);
+					 String back = WeixinUtil.replyNewsMessageToXml(mNewsMessage);
 					 System.out.println(back);
 					 return back;
 
@@ -195,14 +184,13 @@ public class WeixinController {
 			reply.setToUserName(message.getFromUserName());
 			reply.setFromUserName(message.getToUserName());
 			reply.setCreateTime(new Date());
-
 			reply.setMsgType(Reply.TEXT);
 			reply.setContent(replyContent);
 
 			weixinService.addReply(reply);// 保存回复消息到数据库
 			// 将回复消息序列化为xml形式
 			String back = WeixinUtil.replyToXml(reply);
-			System.out.println(back);
+			
 			return back;
 		} else {
 			return "error";
